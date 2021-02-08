@@ -9,21 +9,16 @@
 #include"Image.h"
 
 namespace character {
-
-	class Point {
-	private:
-		int x;
-		int y;
-	public:
-		Point();
-		Point(int x, int y);
-		void setPoint(int x, int y);
-		int getX();
-		int getY();
-	};
 	class Character {
 	private:
-		Point point;
+		//image
+		img::Image img;
+		sf::Texture texture;
+		sf::Sprite sprite;
+
+		//info
+		std::string name;
+		sf::Vector2f point;
 		job::Job job;
 		equipments::Equipments equipment;
 		items::Items item;
@@ -41,7 +36,7 @@ namespace character {
 		float exp = 0.0f;
 		unsigned int damage = 0;
 		unsigned int armor = 0;
-
+		float step = 1.0f;
 	public:
 		Character();
 		//Character(...);
@@ -49,20 +44,24 @@ namespace character {
 		~Character();
 
 		//info
+		void setName(std::string name);
 		void setJob(job::Job job);
 		void setHP(int hp);
 		void setLevel(int level);
 		void setMoney(float money);
 		void setDeadFlags(bool isDead);
-
+		void setStep(float step);
+		void setPoint(sf::Vector2f point);
+		std::string getName();
 		bool getDeadFlags();
 		job::Job getJob();
 		int getHP();
 		int getLevel();
 		float getMoney();
-		
+		sf::Vector2f getPoint();	
+		float getStep();
 		//acts
-		void move(Point p);
+		void move(float x, float y);
 		void attack();
 		void beAttacked();
 

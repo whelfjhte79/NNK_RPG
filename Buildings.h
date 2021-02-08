@@ -44,7 +44,7 @@ namespace buildings {
 		int highPrice;     
 		int lowPrice;
 	public:
-		Stock(){}
+		Stock();
 		Stock(std::string name,int current, int open, int close, int high, int low);
 		~Stock(){}
 
@@ -74,6 +74,7 @@ namespace buildings {
 		void addStock(Stock stock);
 		void deleteStock(std::string name);
 
+		
 		//총발행량 제한 할꺼면 사용.
 		//void buy(std::string name, int quantity);
 		//void sell(std::string name, int quantity);

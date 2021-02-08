@@ -5,7 +5,7 @@
 #include"Ability.h"
 namespace items {
 
-	enum class ItemType {
+	enum class ItemTypes {
 		Empty,
 		Head,
 		Weapon,
@@ -26,21 +26,20 @@ namespace items {
 	private:
 		std::string name;
 		int authority;
-		ItemType itemType;
-
+		ItemTypes itemType;
 		ability::Ability ability;
 
 	public:
-		Items(){}
-		Items(ItemType itemtype, int authority, std::string name){}
+		Items();
+		Items(ItemTypes itemType, Authority authority, std::string name);
 
 		void setName(std::string name){}
 		void setAuthority(int authority){}
-		void setItemType(ItemType itemType){}
+		void setItemType(ItemTypes itemType){}
 
 		std::string getName(){}
 		int getAuthority(){}
-		ItemType getItemType(){}
+		ItemTypes getItemType(){}
 
 	};
 }

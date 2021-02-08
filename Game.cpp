@@ -1,6 +1,7 @@
 #include"Game.h"
 
-
+//test
+#include<iostream>
 namespace nnk {
 	Game::Game() {
 		this->initWindow("testWindow");
@@ -12,45 +13,63 @@ namespace nnk {
 	void Game::init() {
 		this->gameState = GameState::Running;
 	}
-	void Game::run() {
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-		//background
-		/**
-		* background 안에 buildings.render넣기
-		*/
-
-
+	void Game::render() {
+		this->renderWindow->clear(sf::Color::Green);
+		//glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
 		this->background.render();
-
-		//object-draw
-		if (this->character.getDeadFlags()) {
-
-		}
 		this->character.render(this->renderWindow);
 
-		
-		//poll Event   screen
-		this->pollEvent();
-
-
+		//cursor
+		this->cursorDraw();
+		this->cursor.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition()));
+		this->renderWindow->setView(this->fixed);
+		this->renderWindow->draw(this->cursor);
+		this->renderWindow->display();
 
 
 		glClear(GL_COLOR_BUFFER_BIT);
-		renderWindow->display();
-	}
-	void Game::render() {
-		this->renderWindow->clear();
-		this->character.render(this->renderWindow);
-
-
 		this->renderWindow->display();
 	}
 	void Game::update() {
 
+		if (this->gameState != GameState::End) {
+
+			this->pollEvent();
+
+			this->character.update();
+			// if ESC setGameState(GameState::END);
+
+			//glClear(GL_COLOR_BUFFER_BIT);
+
+		}
 	}
 	void Game::initWindow(std::string windowName) {
 		renderWindow = new sf::RenderWindow(sf::VideoMode(800,600),windowName,sf::Style::Close | sf::Style::Titlebar);
 
+		/*
+		init page
+		init button
+		*/
+
+	}
+	void Game::cursorDraw() {
+		
+		//test
+		img::Image img;
+		img.read("images/Cursor", img::FileExtension::PNG);
+		//test_END
+
+		renderWindow->setMouseCursorVisible(false);
+		this->fixed = renderWindow->getView();
+
+		//sf::Texture texture;
+		//texture.loadFromFile("images/Cursor.png");
+		//this->cursor = sf::Sprite(texture);
+		
+		
+		//test
+		img.draw(*renderWindow);
+		//test_END
 	}
 	void Game::setGameState(GameState gameState) {
 		this->gameState = gameState;
@@ -58,10 +77,15 @@ namespace nnk {
 	GameState Game::getGameState() {
 		return this->gameState;
 	}
+	sf::RenderWindow* Game::getRenderWindow() {
+		return this->renderWindow;
+	}
 	bool Game::getWindowIsOpen() {
 		return this->renderWindow->isOpen();
 	}
 	void Game::pollEvent() {
+		bool bLShiftPressed = false;
+		float step=0.0f;
 		while (this->renderWindow->pollEvent(this->gameEvent)) {
 			if (this->gameEvent.type == sf::Event::Closed) {
 				// 정말 종료하시겠습니까? 이벤트 넣기
@@ -72,7 +96,22 @@ namespace nnk {
 
 			}
 			else if (this->gameEvent.type == sf::Event::KeyPressed) {
-				//if(this->)
+
+				//keyboard WASD
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+					this->character.move(character.getPoint().x - this->character.getStep(), character.getPoint().y);
+				}
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+					this->character.move(character.getPoint().x + this->character.getStep(), character.getPoint().y);
+				}
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+					this->character.move(character.getPoint().x, character.getPoint().y + this->character.getStep());
+				}
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+					this->character.move(character.getPoint().x, character.getPoint().y - this->character.getStep());
+				}
+				//
+				
 			}
 			else if (this->gameEvent.type == sf::Event::MouseButtonPressed) {
 
@@ -84,7 +123,22 @@ namespace nnk {
 
 			}
 			
+		
+
 
 		}
 	}
+	
+	//attribute
+	void Game::addNPC(character::Character npc){
+		this->npcList.push_back(npc);
+	}
+	void Game::deleteNPC(std::string npcName) {
+		for (std::list<character::Character>::iterator itr = this->npcList.begin(); itr != this->npcList.end(); ++itr) {
+			if ((*itr).getName() == npcName) {
+				this->npcList.erase(itr);
+			}
+		}
+	}
+
 }

@@ -1,18 +1,29 @@
 #include"Character.h"
 
-
+#include<iostream>
 
 //#define IMG_NAME(img) #img ## ".png"
 namespace character {
 	Character::Character() {
-		this->point = Point(0, 0);
+		this->isDead = false;
+		this->job.setKindOfFields(job::KindOfFields::WhiteCollar);
+		this->job.setKindOfJobs(job::KindOfJobs::OfficeWorker);
+		this->point = sf::Vector2f(10.0f, 10.0f);
+
 		// ...
 	}
 	Character::Character(const Character& character) {
 		//복사 생성자
+		this->point = character.point;
+		this->isDead = false;
+
 	}
 	Character::~Character(){}
 
+
+	void Character::setName(std::string name) {
+		this->name = name;
+	}
 	void Character::setJob(job::Job job) {
 		this->job = job;
 	}
@@ -30,7 +41,16 @@ namespace character {
 	void Character::setDeadFlags(bool isDead) {
 		this->isDead = isDead;
 	}
+	void Character::setStep(float step) {
+		this->step = step;
+	}
+	void Character::setPoint(sf::Vector2f point) {
+		this->point = point;
+	}
 
+	std::string Character::getName() {
+		return this->name;
+	}
 	job::Job Character::getJob() {
 		return this->job;
 	}
@@ -46,9 +66,17 @@ namespace character {
 	bool Character::getDeadFlags() {
 		return this->isDead;
 	}
+	sf::Vector2f Character::getPoint() {
+		return this->point;
+	}
+	float Character::getStep() {
+		return this->step;
+	}
 
-	void Character::move(Point p){
-		this->point.setPoint(p.getX(),p.getY());
+	void Character::move(float x, float y){
+		this->point.x = x;
+		this->point.y = y;
+		
 	}
 	void Character::attack() {
 
@@ -61,36 +89,33 @@ namespace character {
 
 	}
 	void Character::render(sf::RenderTarget* target) {
-		constexpr int IMG_SIZE = 0;
-		img::Image img;
-		sf::Texture texture;
-		sf::Sprite sprite;
-		img.read("OfficeWorker", img::FileExtension::PNG);
-		img.read("StockTrader", img::FileExtension::PNG);
-		img.read("Enterpriser", img::FileExtension::PNG);
-		img.read("Farmer", img::FileExtension::PNG);
-
-		//변수에 이미지 이름 읽어오기
-
 		switch (this->job.getKindOfJobs()) {
 		case job::KindOfJobs::OfficeWorker:
-			sprite = sf::Sprite(/*이미지 이름 변수*/);
+			this->img.read("images/OfficeWorker", img::FileExtension::PNG);
 			break;
 		case job::KindOfJobs::StockTrader:
+			this->img.read("images/StockTrader", img::FileExtension::PNG);
 			break;
 		case job::KindOfJobs::Enterpriser:
+			this->img.read("images/Enterpriser", img::FileExtension::PNG);
 			break;
 		case job::KindOfJobs::Farmer:
+			this->img.read("images/Farmer", img::FileExtension::PNG);
 			break;
 		case job::KindOfJobs::Auctioneer:
+			this->img.read("images/Auctioneer", img::FileExtension::PNG);
 			break;
 		case job::KindOfJobs::Wholesaler:
+			this->img.read("images/Wholesaler", img::FileExtension::PNG);
 			break;
 		case job::KindOfJobs::Hitman:
+			this->img.read("images/Hitman", img::FileExtension::PNG);
 			break;
 		case job::KindOfJobs::Gambler:
+			this->img.read("images/Gambler", img::FileExtension::PNG);
 			break;
 		case job::KindOfJobs::DrugsDealer:
+			this->img.read("images/DrugsDealer", img::FileExtension::PNG);
 			break;
 		default:
 			except(ErrorType::IndexOutOfBounds);
@@ -98,26 +123,12 @@ namespace character {
 
 		}
 
-
-		img.draw(*target);
-
+		
+		this->img.draw(*target);
+		
+		this->img.getImgVec().clear();
 	}
 
-	Point::Point() {
-		this->x = 0;
-		this->y = 0;
-	}
-	Point::Point(int x, int y) : x(x), y(y) {}
-	void Point::setPoint(int x, int y) {
-		this->x = x;
-		this->y = y;
-	}
-	int Point::getX() {
-		return this->x;
-	}
-	int Point::getY() {
-		return this->y;
-	}
 
 
 

@@ -11,7 +11,7 @@ namespace quest {
 		job::KindOfJobs jobType;
 	public:
 		MainQuest();
-		MainQuest(job::KindOfJobs jobType){}
+		MainQuest(job::KindOfJobs jobType);
 
 
 		void setJobType(){}

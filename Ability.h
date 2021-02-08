@@ -5,8 +5,8 @@ namespace ability {
 
 	class Ability {
 	private:
-		int power;
-		int defense;
+		int power = 0;
+		int defense = 0;
 
 	public:
 		Ability(){}

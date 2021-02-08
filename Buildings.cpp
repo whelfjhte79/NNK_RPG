@@ -12,6 +12,15 @@ namespace buildings {
 
 	Company::Company(){}
 
+	Stock::Stock() {
+		this->name = "test";
+		this->currentPrice = 0;
+		this->openPrice = 0;
+		this->closePrice = 0;
+		this->highPrice = 0;
+		this->lowPrice = 0;
+		
+	}
 	Stock::Stock(std::string name, int current, int open, int close, int high, int low) {
 		this->name = name;
 		this->currentPrice = current;
