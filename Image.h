@@ -21,20 +21,22 @@ namespace img {
 		sf::Sprite sprite;
 		sf::Vector2f point;
 		std::vector<Data> imgVec;
-		void load(std::string fileName);
+		
 	public:
 		Image();
 		Image(sf::Vector2f point);
 		~Image();
 		
+		void saveImg(Data data);
 		void setPoint(sf::Vector2f point);
-
+		sf::Vector2f getPoint();
 		std::string getImgName();
+		sf::Sprite getSprite();
 		Data getData();
 		std::vector<Data> getImgVec();
 		void read(std::string fileName,FileExtension fileEx);
-		void drawOne(std::string fileName, sf::RenderTarget& target);
-		void draw(sf::RenderTarget& target);
+		void drawOne(sf::RenderTarget* target);
+		void draw(sf::RenderTarget* target);
 	};
 }
 

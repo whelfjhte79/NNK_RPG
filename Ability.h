@@ -9,8 +9,8 @@ namespace ability {
 		int defense = 0;
 
 	public:
-		Ability(){}
-		~Ability(){}
+		Ability();
+		~Ability();
 
 	};
 }

@@ -4,12 +4,14 @@
 
 //#define IMG_NAME(img) #img ## ".png"
 namespace character {
+
 	Character::Character() {
 		this->isDead = false;
 		this->job.setKindOfFields(job::KindOfFields::WhiteCollar);
 		this->job.setKindOfJobs(job::KindOfJobs::OfficeWorker);
-		this->point = sf::Vector2f(10.0f, 10.0f);
+		this->point = sf::Vector2f(100.0f, 100.0f);
 
+		this->moveState = MoveState::Front;
 		// ...
 	}
 	Character::Character(const Character& character) {
@@ -20,6 +22,62 @@ namespace character {
 	}
 	Character::~Character(){}
 
+	std::string Character::findFileName() {
+		std::string fileName = "images/Character/";
+		switch (this->job.getKindOfJobs()) {
+		case job::KindOfJobs::OfficeWorker:
+			fileName += "OfficeWorker";
+			break;
+		case job::KindOfJobs::StockTrader:
+			fileName += "StockTrader";
+			break;
+		case job::KindOfJobs::Enterpriser:
+			fileName += "Enterpriser";
+			break;
+		case job::KindOfJobs::Farmer:
+			fileName += "Farmer";
+			break;
+		case job::KindOfJobs::Auctioneer:
+			fileName += "Auctioneer";
+			break;
+		case job::KindOfJobs::Wholesaler:
+			fileName += "Wholesaler";
+			break;
+		case job::KindOfJobs::Hitman:
+			fileName += "Hitman";
+			break;
+		case job::KindOfJobs::Gambler:
+			fileName += "Gambler";
+			break;
+		case job::KindOfJobs::DrugsDealer:
+			fileName += "DrugsDealer";
+			break;
+		default:
+			except(ErrorType::FileNotFound);
+			break;
+		}
+
+		fileName += "_";
+
+		switch (this->moveState) {
+		case MoveState::Front:
+			fileName += "Front";
+			break;
+		case MoveState::Back:
+			fileName += "Back";
+			break;
+		case MoveState::Left:
+			fileName += "Left";
+			break;
+		case MoveState::Right:
+			fileName += "Right";
+			break;
+		default:
+			except(ErrorType::FileNotFound);
+		}
+
+		return fileName;
+	}
 
 	void Character::setName(std::string name) {
 		this->name = name;
@@ -74,8 +132,8 @@ namespace character {
 	}
 
 	void Character::move(float x, float y){
-		this->point.x = x;
-		this->point.y = y;
+		this->point.x += x;
+		this->point.y += y;
 		
 	}
 	void Character::attack() {
@@ -85,50 +143,20 @@ namespace character {
 
 	}
 
-	void Character::update() {
-
-	}
 	void Character::render(sf::RenderTarget* target) {
-		switch (this->job.getKindOfJobs()) {
-		case job::KindOfJobs::OfficeWorker:
-			this->img.read("images/OfficeWorker", img::FileExtension::PNG);
-			break;
-		case job::KindOfJobs::StockTrader:
-			this->img.read("images/StockTrader", img::FileExtension::PNG);
-			break;
-		case job::KindOfJobs::Enterpriser:
-			this->img.read("images/Enterpriser", img::FileExtension::PNG);
-			break;
-		case job::KindOfJobs::Farmer:
-			this->img.read("images/Farmer", img::FileExtension::PNG);
-			break;
-		case job::KindOfJobs::Auctioneer:
-			this->img.read("images/Auctioneer", img::FileExtension::PNG);
-			break;
-		case job::KindOfJobs::Wholesaler:
-			this->img.read("images/Wholesaler", img::FileExtension::PNG);
-			break;
-		case job::KindOfJobs::Hitman:
-			this->img.read("images/Hitman", img::FileExtension::PNG);
-			break;
-		case job::KindOfJobs::Gambler:
-			this->img.read("images/Gambler", img::FileExtension::PNG);
-			break;
-		case job::KindOfJobs::DrugsDealer:
-			this->img.read("images/DrugsDealer", img::FileExtension::PNG);
-			break;
-		default:
-			except(ErrorType::IndexOutOfBounds);
-			break;
+		std::string characterName = this->findFileName();
 
-		}
-
+		this->img.read(characterName, img::FileExtension::PNG);
+		this->img.setPoint(this->point);
+		this->img.drawOne(target);
 		
-		this->img.draw(*target);
-		
-		this->img.getImgVec().clear();
+		target->draw(this->img.getSprite());
 	}
-
+	void Character::update() {
+	
+		
+		
+	}
 
 
 

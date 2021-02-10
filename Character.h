@@ -9,8 +9,15 @@
 #include"Image.h"
 
 namespace character {
+	enum class MoveState {
+		Left,
+		Right,
+		Front,
+		Back
+	};
 	class Character {
 	private:
+		sf::RenderTarget* target;
 		//image
 		img::Image img;
 		sf::Texture texture;
@@ -18,6 +25,7 @@ namespace character {
 
 		//info
 		std::string name;
+		MoveState moveState;
 		sf::Vector2f point;
 		job::Job job;
 		equipments::Equipments equipment;
@@ -36,7 +44,12 @@ namespace character {
 		float exp = 0.0f;
 		unsigned int damage = 0;
 		unsigned int armor = 0;
-		float step = 1.0f;
+		float step = 8.0f;
+
+		//func
+		std::string findFileName();
+
+
 	public:
 		Character();
 		//Character(...);

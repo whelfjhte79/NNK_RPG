@@ -1,6 +1,7 @@
 #ifndef BACKGROUND_H
 #define BACKGROUND_H
 
+#include"Image.h"
 namespace background {
 	enum class MapList {
 
@@ -8,13 +9,13 @@ namespace background {
 
 	class Background {
 	private:
-
+		img::Image img;
 
 		
 	public:
-		void screen() {}
-		void update() {}
-		void render() {}
+		void init();
+		void update();
+		void render(sf::RenderTarget* target);
 	};
 
 	class Tiles {

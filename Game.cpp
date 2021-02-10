@@ -1,7 +1,6 @@
 #include"Game.h"
 
-//test
-#include<iostream>
+
 namespace nnk {
 	Game::Game() {
 		this->initWindow("testWindow");
@@ -15,19 +14,14 @@ namespace nnk {
 	}
 	void Game::render() {
 		this->renderWindow->clear(sf::Color::Green);
-		//glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
-		this->background.render();
+
+		//glClearColor(1.0f, 1.0f, 0.0f, 0.0f);
+	    this->background.render(this->renderWindow);
 		this->character.render(this->renderWindow);
+		this->cursor.render(this->renderWindow);
 
-		//cursor
-		this->cursorDraw();
-		this->cursor.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition()));
-		this->renderWindow->setView(this->fixed);
-		this->renderWindow->draw(this->cursor);
-		this->renderWindow->display();
-
-
-		glClear(GL_COLOR_BUFFER_BIT);
+		
+		//glClear(GL_COLOR_BUFFER_BIT);
 		this->renderWindow->display();
 	}
 	void Game::update() {
@@ -35,41 +29,22 @@ namespace nnk {
 		if (this->gameState != GameState::End) {
 
 			this->pollEvent();
-
+			this->cursor.update();
+			this->background.update();
 			this->character.update();
+			
 			// if ESC setGameState(GameState::END);
-
-			//glClear(GL_COLOR_BUFFER_BIT);
-
+		
 		}
 	}
 	void Game::initWindow(std::string windowName) {
-		renderWindow = new sf::RenderWindow(sf::VideoMode(800,600),windowName,sf::Style::Close | sf::Style::Titlebar);
+		renderWindow = new sf::RenderWindow(sf::VideoMode(1000, 800), windowName, sf::Style::Close | sf::Style::Titlebar);
 
 		/*
 		init page
 		init button
 		*/
 
-	}
-	void Game::cursorDraw() {
-		
-		//test
-		img::Image img;
-		img.read("images/Cursor", img::FileExtension::PNG);
-		//test_END
-
-		renderWindow->setMouseCursorVisible(false);
-		this->fixed = renderWindow->getView();
-
-		//sf::Texture texture;
-		//texture.loadFromFile("images/Cursor.png");
-		//this->cursor = sf::Sprite(texture);
-		
-		
-		//test
-		img.draw(*renderWindow);
-		//test_END
 	}
 	void Game::setGameState(GameState gameState) {
 		this->gameState = gameState;
@@ -83,6 +58,7 @@ namespace nnk {
 	bool Game::getWindowIsOpen() {
 		return this->renderWindow->isOpen();
 	}
+
 	void Game::pollEvent() {
 		bool bLShiftPressed = false;
 		float step=0.0f;
@@ -99,18 +75,24 @@ namespace nnk {
 
 				//keyboard WASD
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-					this->character.move(character.getPoint().x - this->character.getStep(), character.getPoint().y);
+					
+					this->character.move(-this->character.getStep(), 0.0f);
 				}
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-					this->character.move(character.getPoint().x + this->character.getStep(), character.getPoint().y);
+					this->character.move(this->character.getStep(), 0.0f);
 				}
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-					this->character.move(character.getPoint().x, character.getPoint().y + this->character.getStep());
+					this->character.move(0.0f, this->character.getStep());
 				}
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-					this->character.move(character.getPoint().x, character.getPoint().y - this->character.getStep());
+					this->character.move(0.0f, -this->character.getStep());
 				}
-				//
+				//ctrl + key
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+						//Game Save
+					}
+				}
 				
 			}
 			else if (this->gameEvent.type == sf::Event::MouseButtonPressed) {

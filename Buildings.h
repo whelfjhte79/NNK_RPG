@@ -79,7 +79,7 @@ namespace buildings {
 		//void buy(std::string name, int quantity);
 		//void sell(std::string name, int quantity);
 
-
+		virtual void screen() override;
 		void update(){}
 		void render(){}
 	};

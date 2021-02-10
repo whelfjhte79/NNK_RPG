@@ -6,7 +6,9 @@ namespace buildings {
 	Buildings::Buildings(){}
 	void Buildings::enter() {}
 	void Buildings::exit() {}
-	void Buildings::screen() {}
+	void Buildings::screen() {
+	
+	}
 	void Buildings::update() {}
 	void Buildings::render() {}
 
@@ -67,7 +69,11 @@ namespace buildings {
 		return this->lowPrice;
 	}
 
-	StockCenter::StockCenter() {}
+	StockCenter::StockCenter() {
+	}
+	void StockCenter::screen() {
+
+	}
 	void StockCenter::addStock(Stock stock){
 		this->stockVec.push_back(stock);
 	}
