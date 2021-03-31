@@ -1,15 +1,17 @@
 #ifndef ITEMS_H
 #define ITEMS_H
 
-#include"NNK_RPG.h"
+#include"stdafx.h"
 #include"Ability.h"
+#include"Image.h"
 namespace items {
+
 
 	enum class ItemTypes {
 		Empty,
 		Head,
 		Weapon,
-		Hands,
+		Gloves,
 		Shirt,
 	    Pants,
 	    Shoes
@@ -26,20 +28,37 @@ namespace items {
 	private:
 		std::string name;
 		int authority;
-		ItemTypes itemType;
+		int quantity;
 		ability::Ability ability;
-
+		img::ImageFile img;
 	public:
 		Items();
-		Items(ItemTypes itemType, Authority authority, std::string name);
+		Items(std::string name, int authority, int quantity, ability::Ability ability, img::ImageFile img);
 
-		void setName(std::string name){}
-		void setAuthority(int authority){}
-		void setItemType(ItemTypes itemType){}
+		void setName(std::string name);
+		void setAuthority(int authority);
+		void setQuantity(int quantity);
 
-		std::string getName(){}
-		int getAuthority(){}
-		ItemTypes getItemType(){}
+		std::string getName();
+		int getAuthority();
+		int getQuantity();
+		img::ImageFile getImg();
+		//draw
+		void update();
+		void render(sf::RenderTarget* target);
+		
+	};
+
+	class ItemList {
+	private:
+		std::vector<Items*> itemList;
+		Items* item;
+	public:
+		ItemList();
+		ItemList(Items* item);
+		~ItemList();
+
+		Items* getItem();
 
 	};
 }

@@ -6,17 +6,22 @@
 namespace equipments {
 	class Equipments{
 	private:
-		items::Items head;
-		items::Items weapon;
-		items::Items hands;
-		items::Items shirt;
-		items::Items pants;
-		items::Items shoes;
+		items::Items* head;
+		items::Items* weapon;
+		items::Items* gloves;
+		items::Items* shirt;
+		items::Items* pants;
+		items::Items* shoes;
+		
 		
 
 	public:
-		Equipments(){}
-		~Equipments(){}
+		Equipments();
+		Equipments(items::Items* head, items::Items* weapon, items::Items* gloves, items::Items* shirt, items::Items* pants, items::Items* shoes);
+		~Equipments();
+
+		void update();
+		void render(sf::RenderTarget* target);
 	};
 }
 

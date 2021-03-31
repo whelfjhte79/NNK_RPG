@@ -1,25 +1,8 @@
-#include"NNK_RPG.h"
+#include"stdafx.h"
 #include<iostream>
 #include"Game.h"
+
 using namespace nnk;
-
-
-/**
-*    Todolist : 
-*	 
-*	 animation 구현. 유니티처럼 하면 될 듯
-*    key input 구현
-*    button 및 screen 구현
-
-*/
-
-
-
-
-//#define TEST  // Test 
-#ifdef TEST 
-#include"Test.h"
-#endif
 
 
 [[noreturn]] void except(ErrorType errorType) {
@@ -66,51 +49,14 @@ void test() {
 		}
 		test.update();
 
-
 		test.getWindow()->display();
 	}
 
-	/*
-		test.getSprite().setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*test.getWindow())));
-		test.getWindow()->clear();
-		test.getWindow()->setView(test.getView());
-		test.getWindow()->draw(test.getSprite());
-		test.getWindow()->display();
-	*/
-
-
-	/*
-	    sf::RenderWindow window(sf::VideoMode(800, 600), "Hidden Cursor");
-    window.setMouseCursorVisible(false); // Hide cursor
-    
-    sf::View fixed = window.getView(); // Create a fixed view
-    
-    // Load image and create sprite
-    sf::Texture texture;
-    texture.loadFromFile("cursor.png");
-    sf::Sprite sprite(texture);
-    
-    while(window.isOpen())
-    {
-        sf::Event event;
-        while(window.pollEvent(event))
-        {
-            if(event.type == sf::Event::Closed)
-            {
-                window.close();
-            }
-        }
-
-        // Set position        
-        sprite.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(window)));
-        
-        window.clear();
-        window.setView(fixed);
-        window.draw(sprite);
-        window.display();
-    }
-	
-	*/
+}
+void test2() {
+	sf::Texture text;
+	const std::string filename = "C:\\Users\\이상민\\source\\repos\\Game_OpenGL\\Game_OpenGL\\images\\MainMenu\\MainMenu.png";
+	text.loadFromFile(filename);
 }
 #else
 void nnk_rpg() {
@@ -126,6 +72,8 @@ int main(void) {
 	
 #ifdef TEST
 	test();
+	//server::server();
+	//test2();
 #else
 	nnk_rpg();
 #endif

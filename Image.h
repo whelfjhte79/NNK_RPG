@@ -1,8 +1,8 @@
 #ifndef IMAGE_H
 #define IMAGE_H
 
-#include"NNK_RPG.h"
-
+#include"stdafx.h"
+#include<iostream>
 namespace img {
 	enum class FileExtension{
 		PNG,
@@ -13,30 +13,34 @@ namespace img {
 	typedef struct Data {
 		std::string name;
 		sf::Texture img;
-	
+		sf::Vector2u imgSize;
 	}Data;
-	class Image : public Data {
+	class ImageFile : public Data {
 	private:
 		Data data;
 		sf::Sprite sprite;
 		sf::Vector2f point;
 		std::vector<Data> imgVec;
-		
 	public:
-		Image();
-		Image(sf::Vector2f point);
-		~Image();
-		
-		void saveImg(Data data);
+		ImageFile();
+		ImageFile(sf::Vector2f point);
+		ImageFile(std::string fileName, FileExtension fileEx, float x, float y);
+		ImageFile(std::string fileName, FileExtension fileEx, float x, float y, sf::RenderTarget* target);
+		~ImageFile();
+	
+		void addImage(std::string fileName, FileExtension fileEx);
+		void clearImgVec();
+		void setSprite();
 		void setPoint(sf::Vector2f point);
 		sf::Vector2f getPoint();
 		std::string getImgName();
-		sf::Sprite getSprite();
 		Data getData();
 		std::vector<Data> getImgVec();
+		sf::Sprite getSprite();
+		sf::Vector2u getImgSize();
 		void read(std::string fileName,FileExtension fileEx);
-		void drawOne(sf::RenderTarget* target);
 		void draw(sf::RenderTarget* target);
+		void drawAll(sf::RenderTarget* target);
 	};
 }
 

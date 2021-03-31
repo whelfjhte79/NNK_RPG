@@ -1,19 +1,19 @@
 #ifndef CURSOR_H
 #define CURSOR_H
 #include"Image.h"
-#include"NNK_RPG.h"
+#include"stdafx.h"
 namespace cursor {
 	class Cursor {
 	private:
 		sf::RenderWindow* renderWindow;
 		sf::View fixed;
-		img::Image img;
+		img::ImageFile img;
 		
 
 	public:
 		void render(sf::RenderWindow* renderWindow);
 		void update();
-		
+		sf::Vector2f getMousePosition();
 	};
 }
 

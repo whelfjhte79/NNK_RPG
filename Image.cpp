@@ -1,15 +1,31 @@
 #include"Image.h"
 
 namespace img {
-	Image::Image() {
+	ImageFile::ImageFile() {
 		this->setPoint(sf::Vector2f(0.0f, 0.0f));
 	}
-	Image::Image(sf::Vector2f point) {
+	ImageFile::ImageFile(std::string fileName, FileExtension fileEx, float x, float y) {
+		this->read(fileName, fileEx);
+		this->setPoint(sf::Vector2f(x, y));
+		this->setSprite();
+	}
+	ImageFile::ImageFile(std::string fileName, FileExtension fileEx, float x, float y, sf::RenderTarget* target) {
+		this->read(fileName, fileEx);
+		this->setPoint(sf::Vector2f(x, y));
+		this->setSprite();
+		this->draw(target);
+	}
+	ImageFile::ImageFile(sf::Vector2f point) {
 		this->point = point;
 	}
-	Image::~Image(){}
-	void Image::read(std::string fileName,FileExtension fileEx) {
+	ImageFile::~ImageFile(){}
+
+	void ImageFile::read(std::string fileName,FileExtension fileEx) {
 		sf::Texture texture;
+		if (fileName == "") {
+			std::cout << "file name does not exist";
+			except(ErrorType::FileNotFound);
+		}
 		switch (fileEx) {
 		case FileExtension::PNG:
 			fileName = fileName + ".png";
@@ -27,43 +43,55 @@ namespace img {
 			except(ErrorType::FileNotFound);
 			break;
 		}
-		texture.loadFromFile(fileName);
+		if (!texture.loadFromFile(fileName)) {
+			except(ErrorType::FileNotFound);
+		}
 		this->data.name = fileName;
 		this->data.img = texture;
-		
+		this->data.imgSize = texture.getSize();
+
 	}
-	void Image::saveImg(Data data) {
-		this->imgVec.push_back(data);
+	void ImageFile::addImage(std::string fileName, FileExtension fileEx) {
+		this->read(fileName, fileEx);
+		this->imgVec.push_back(this->data);
 	}
-	void Image::drawOne(sf::RenderTarget* target) {
+	void ImageFile::clearImgVec() {
+		this->imgVec.clear();
+	}
+	void ImageFile::setSprite() {
 		this->sprite = sf::Sprite(this->data.img);
 		this->sprite.setPosition(this->point);
 	}
-	void Image::draw(sf::RenderTarget* target) {
+	void ImageFile::draw(sf::RenderTarget* target) {
+		if (target == NULL) { return; }
+		target->draw(this->sprite);
+	}
+	void ImageFile::drawAll(sf::RenderTarget* target) {
 		for (auto i : this->imgVec) {
 			this->sprite = sf::Sprite(i.img);
 			this->sprite.setPosition(point);
 			target->draw(sprite);
 		}
-		
 	}
-	
-	void Image::setPoint(sf::Vector2f point) {
+	void ImageFile::setPoint(sf::Vector2f point) {
 		this->point = point;
 	}
-	std::string Image::getImgName() {
+	std::string ImageFile::getImgName() {
 		return this->data.name;
 	}
-	sf::Sprite Image::getSprite() {
-		return this->sprite;
-	}
-	Data Image::getData() {
+	Data ImageFile::getData() {
 		return this->data;
 	}
-	std::vector<Data> Image::getImgVec() {
+	sf::Sprite ImageFile::getSprite() {
+		return this->sprite;
+	}
+	std::vector<Data> ImageFile::getImgVec() {
 		return this->imgVec;
 	}
-	sf::Vector2f Image::getPoint() {
+	sf::Vector2f ImageFile::getPoint() {
 		return this->point;
+	}
+	sf::Vector2u ImageFile::getImgSize() {
+		return this->data.img.getSize();
 	}
 }

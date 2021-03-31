@@ -10,47 +10,32 @@ namespace character {
 		this->job.setKindOfFields(job::KindOfFields::WhiteCollar);
 		this->job.setKindOfJobs(job::KindOfJobs::OfficeWorker);
 		this->point = sf::Vector2f(100.0f, 100.0f);
-
+		this->target = NULL;
 		this->moveState = MoveState::Front;
 		// ...
 	}
 	Character::Character(const Character& character) {
-		//복사 생성자
+		
+		this->target = character.target;
 		this->point = character.point;
 		this->isDead = false;
+		this->moveState = character.moveState;
+
 
 	}
 	Character::~Character(){}
 
 	std::string Character::findFileName() {
 		std::string fileName = "images/Character/";
-		switch (this->job.getKindOfJobs()) {
-		case job::KindOfJobs::OfficeWorker:
-			fileName += "OfficeWorker";
+		switch (this->job.getKindOfFields()) {
+		case job::KindOfFields::WhiteCollar:
+			fileName += "WhiteCollar";
 			break;
-		case job::KindOfJobs::StockTrader:
-			fileName += "StockTrader";
+		case job::KindOfFields::Merchant:
+			fileName += "Merchant";
 			break;
-		case job::KindOfJobs::Enterpriser:
-			fileName += "Enterpriser";
-			break;
-		case job::KindOfJobs::Farmer:
-			fileName += "Farmer";
-			break;
-		case job::KindOfJobs::Auctioneer:
-			fileName += "Auctioneer";
-			break;
-		case job::KindOfJobs::Wholesaler:
-			fileName += "Wholesaler";
-			break;
-		case job::KindOfJobs::Hitman:
-			fileName += "Hitman";
-			break;
-		case job::KindOfJobs::Gambler:
-			fileName += "Gambler";
-			break;
-		case job::KindOfJobs::DrugsDealer:
-			fileName += "DrugsDealer";
+		case job::KindOfFields::BlackGuard:
+			fileName += "BlackGuard";
 			break;
 		default:
 			except(ErrorType::FileNotFound);
@@ -106,6 +91,17 @@ namespace character {
 		this->point = point;
 	}
 
+	void Character::addItem(items::Items item) {
+		this->items.push_back(item);
+	}
+	void Character::deleteItem(items::Items item) {
+		for (std::vector<items::Items>::iterator itr = this->items.begin(); itr != this->items.end(); itr++) {
+			if (itr->getName() == item.getName()) {
+				itr = this->items.erase(itr);
+			}
+		}
+	}
+
 	std::string Character::getName() {
 		return this->name;
 	}
@@ -114,6 +110,15 @@ namespace character {
 	}
 	int Character::getHP() {
 		return this->hp;
+	}
+	unsigned int Character::getDamage() {
+		return this->damage;
+	}
+	unsigned int Character::getArmor() {
+		return this->armor;
+	}
+	float Character::getExp() {
+		return this->exp;
 	}
 	int Character::getLevel() {
 		return this->level;
@@ -130,32 +135,31 @@ namespace character {
 	float Character::getStep() {
 		return this->step;
 	}
+	std::vector<screen::Stock> Character::getStock() {
+		return this->stock;
+	}
 
 	void Character::move(float x, float y){
 		this->point.x += x;
 		this->point.y += y;
 		
 	}
-	void Character::attack() {
-
+	int Character::attack() {
+		return this->damage;
 	}
-	void Character::beAttacked() {
-
+	void Character::beAttacked(int damage) {
+		this->hp -= damage;
+		if (this->hp <= 0) this->isDead = true;
 	}
 
 	void Character::render(sf::RenderTarget* target) {
 		std::string characterName = this->findFileName();
-
-		this->img.read(characterName, img::FileExtension::PNG);
-		this->img.setPoint(this->point);
-		this->img.drawOne(target);
+		this->img = img::ImageFile(characterName, img::FileExtension::PNG, this->point.x, this->point.y, target);
 		
-		target->draw(this->img.getSprite());
 	}
 	void Character::update() {
 	
-		
-		
+	
 	}
 
 

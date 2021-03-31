@@ -1,109 +1,86 @@
 #ifndef BUILDINGS_H
 #define BUILDINGS_H
 
-#include"NNK_RPG.h"
-#include<list>
+#include"stdafx.h"
+#include"Image.h"
 
 namespace buildings {
-	/**
-	* 건물 입장시 화면전환 고려
-	* 
-	
-	*/
+	class IBuildings {
+	private:
+	public:
+		virtual void update() = 0;
+		virtual void render(sf::RenderTarget* target) = 0;
+	};
 	class Buildings {
 	private:
-
+		bool entryFlags = false;
+		IBuildings* building;
 	public:
-		Buildings();
 		void enter();
-		void exit();
-
-
-		/*
-		screen 화면 어떻게 넘겨줄지 고민
-		
-		*/
-		virtual void screen();
-		virtual void update();
-		virtual void render();
+		bool getEntryFlags();
+		void setBuilding(IBuildings* building);
+		IBuildings* getBuilding();
 	};
-
-	class Company : public Buildings{
+	class Company : public IBuildings{
 	private:
-
+		std::string linkName;
+		std::string fileName;
+		img::ImageFile img;
 	public:
 		Company();
-	};
-
-	class Stock {
-	private:
-		std::string name;
-		int currentPrice;  
-		int openPrice;     
-		int closePrice;    
-		int highPrice;     
-		int lowPrice;
-	public:
-		Stock();
-		Stock(std::string name,int current, int open, int close, int high, int low);
-		~Stock(){}
-
-		void setName(std::string name);
-		void setCurrentPrice(int current);
-		void setOpenPrice(int open);
-		void setClosePrice(int close);
-		void setHighPrice(int high);
-		void setLowPrice(int low);
 		
-		std::string getName();
-		int getCurrentPrice();
-		int getOpenPrice();
-		int getClosePrice();
-		int getHighPrice();
-		int getLowPrice();
+		void update() override;
+		void render(sf::RenderTarget* target) override;
+
 	};
-	class StockCenter : public Buildings{
-		// 주가예측데이터 
-		//json file 읽어올꺼 예상
+	class StockCenter : public IBuildings{
 	private:
-		std::list<Stock> stockVec;
+		img::ImageFile img;
 	public:
 		StockCenter();
-		~StockCenter(){}
+		~StockCenter();
 		
-		void addStock(Stock stock);
-		void deleteStock(std::string name);
 
+		void update() override;
+		void render(sf::RenderTarget* target) override;
+	};
+	class PlaceOfBusiness : public IBuildings {
+	private:
+		img::ImageFile img;
+	public:
 		
-		//총발행량 제한 할꺼면 사용.
-		//void buy(std::string name, int quantity);
-		//void sell(std::string name, int quantity);
-
-		virtual void screen() override;
-		void update(){}
-		void render(){}
-	};
-	class PlaceOfBusiness {
+		void update() override;
+		void render(sf::RenderTarget* target) override;
 
 	};
 
-	class Agriculture {
+	class Agriculture : public IBuildings {
+	public:
+
+		void update() override;
+		void render(sf::RenderTarget* target) override;
 
 	};
-	class AuctionHouse {
+	class AuctionHouse : public IBuildings {
+	public:
+		void update() override;
+		void render(sf::RenderTarget* target) override;
 
 	};
-	class WholesaleShop {
+	class WholesaleShop : public IBuildings {
+	public:
+		void update() override;
+		void render(sf::RenderTarget* target) override;
 
 	};
 
-	class HitmanContractor {
+	class HitmanContractor : public IBuildings {
 		
 	};
-	class Casino {
+	class Casino : public IBuildings {
 
 	};
-	class DrugsShop {
+	class DrugsShop : public IBuildings {
 
 	};
 	

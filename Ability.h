@@ -2,16 +2,42 @@
 #define ABILITY_H
 
 namespace ability {
-
 	class Ability {
 	private:
-		int power = 0;
-		int defense = 0;
+		// OfficeWorkerAbility
+		float documentProcessingSpeed;
+		float increaseResearchResults;
+		float salesSupportingAbility;
+
+		//	StockTraderAbility
+		float transactionTaxDiscountRate;
+
+		//	EnterpriserAbility
+		float increaseProbabilityOfFindInvestor;
+		float increaseProbabilityOfDisclosureInformation;
+
+		//  FarmerAbility
+		float harvestingSpeed;
+		int landExpansion;
+
+		//  AuctioneerAbility
+		float auctiontaxDiscountRate;
+
+		//  WholesalerAbility
+		
+
+		//  HitmanAbility
+		 
+
+		//  GamblerAbility
+		float CommissionDiscountRate = 0.0f;
+
+		//  DrugsDealerAbility
+		float dealDiscountRate = 0.0f;
 
 	public:
 		Ability();
 		~Ability();
-
 	};
 }
 

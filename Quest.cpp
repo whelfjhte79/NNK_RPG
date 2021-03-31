@@ -8,4 +8,11 @@ namespace quest {
 		this->jobType = jobType;
 		
 	}
+	void MainQuest::setJobType(job::KindOfJobs jobType) {
+		this->jobType = jobType;
+	}
+	job::KindOfJobs MainQuest::getJobType() {
+		return this->jobType;
+	}
+
 }

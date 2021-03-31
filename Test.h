@@ -1,6 +1,7 @@
 #ifndef TEST_H
 #define TEST_H
-#include"NNK_RPG.h"
+#include"stdafx.h"
+#include<iostream>
 class Test {
 private:
 	sf::RenderWindow* window;
@@ -9,15 +10,18 @@ private:
 	sf::View fixed;
 public:
 	void render(){
-		this->texture.loadFromFile("images/Cursor.png");
+		//system("dir");
+		const std::string name = "images/bullet.png";
+		this->texture.loadFromFile(name);
 		this->sprite=sf::Sprite(texture);
-		fixed = this->window->getView();
+		//fixed = this->window->getView();
 	}
 	void update(){
 		//static_cast<sf::Vector2f>(sf::Mouse::getPosition(*window))
-		this->sprite.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*window)));
+		this->sprite.setPosition(sf::Vector2f(0.f, 0.f));
+		//this->sprite.setPosition(static_cast<sf::Vector2f>(sf::Mouse::getPosition(*window)));
 		window->clear();
-		window->setView(fixed);
+		//window->setView(fixed);
 		window->draw(sprite);
 	}
 

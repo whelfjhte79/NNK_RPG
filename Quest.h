@@ -3,45 +3,55 @@
 #endif //QUEST_H
 
 #include"Job.h"
-
+#include"stdafx.h"
 namespace quest {
 	
+	class iQuestForm {
+	public:
+		//acts
+		virtual void contents() = 0;
+		virtual void accept() = 0;
+	};
 	class MainQuest {
 	private:
 		job::KindOfJobs jobType;
+		iQuestForm* iQuest = NULL;
 	public:
 		MainQuest();
 		MainQuest(job::KindOfJobs jobType);
 
+		void setJobType(job::KindOfJobs jobType);
+		void setQuestForm(iQuestForm* iQuest){}
 
-		void setJobType(){}
-		job::KindOfJobs getJobType(){}
+		job::KindOfJobs getJobType();
 
-		//acts
-		virtual void contents(){}
-		virtual void accept(){}
 		void cancel(){}
-
-		// update render
+		
+		//draw
 		void update(){}
-		void render(){}
+		void render(sf::RenderTarget* target){}
+
 	};
 
 
-	class SubQuestWhiteCollar : public MainQuest {
+	class SubQuestWhiteCollar : public iQuestForm {
 	private:
 	public:
-		virtual void contents() override;
+		//acts
+		virtual void contents() override{}
+		virtual void accept() override{}
+
+
 
 	};
-	class SubQuestMerchant : public MainQuest {
+	class SubQuestMerchant : public iQuestForm {
 	private:
 	public:
-		virtual void contents() override;
+		virtual void contents() override{}
 	};
-	class SubQuestBlackGuard : public MainQuest {
+	class SubQuestBlackGuard : public iQuestForm {
 	private:
 	public:
-		virtual void contents() override;
+		virtual void contents() override{}
 	};
 }
